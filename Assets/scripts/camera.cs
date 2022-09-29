@@ -128,24 +128,24 @@ public class camera : MonoBehaviour
         //we initialize the dictionary
         populateDict();
 
-        //we check if the front camera is available
-        //TODO: make the button invisible if the front camera is not available
-        if (isBackupAvailable && devices.Length > 1)
-        {
-            //we set the button to active
-            switchCameraButton.gameObject.SetActive(true);
+        // //we check if the front camera is available
+        // //TODO: make the button invisible if the front camera is not available
+        // if (isBackupAvailable && devices.Length > 1)
+        // {
+        //     //we set the button to active
+        //     switchCameraButton.gameObject.SetActive(true);
 
-        }else
-        {
-            //we set the button to inactive
-            switchCameraButton.gameObject.SetActive(false);
-        }
+        // }else
+        // {
+        //     //we set the button to inactive
+        //     switchCameraButton.gameObject.SetActive(false);
+        // }
 
-        //we set the button to listen for a click
-        switchCameraButton.onClick.AddListener(() => switchCamera());
+        // //we set the button to listen for a click
+        // switchCameraButton.onClick.AddListener(() => switchCamera());
 
-        //debug the on click listener
-        Debug.Log("button listener: " + switchCameraButton.onClick.GetPersistentEventCount());
+        // //debug the on click listener
+        // Debug.Log("button listener: " + switchCameraButton.onClick.GetPersistentEventCount());
 
         //we will invoke the function to get the color every 0.1 seconds 
         InvokeRepeating("getRGBatPosition", 0.1f, 0.1f);
@@ -153,6 +153,9 @@ public class camera : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //lets only do this if the canvas we are on is enabled
+        if(!this.gameObject.GetComponent<Canvas>().enabled)
+            return;
         //we check if the camera is available
         if(!isCameraAvailable)
             return;
