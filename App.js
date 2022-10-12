@@ -60,6 +60,7 @@ import CameraView from './components/cameraView'
 import RecommendationView from './components/recommendationView'
 import MainView from './components/mainView'
 import TouchSelect from './components/SelectionView';
+import ColorPickerView from './components/ColorPickerView';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,6 +72,7 @@ const App = () => {
         <Tab.Screen name="Camera" component={CameraView} />
         <Tab.Screen name="Recommendations" component={RecommendationView} />
         <Tab.Screen name="TouchSel" component={TouchSelect} />
+        <Tab.Screen name="ColorPick" component={ColorPickerView} />
       </Tab.Navigator>
     </NavigationContainer>
   )

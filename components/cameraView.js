@@ -27,7 +27,7 @@ export default function CameraView({ navigation }) {
 
   const permisionFunction = async () => {
     // here is how you can get the camera permission
-    const cameraPermission = await Camera.requestPermissionsAsync();
+    const cameraPermission = await Camera.requestCameraPermissionsAsync();
 
     setCameraPermission(cameraPermission.status === 'granted');
 
