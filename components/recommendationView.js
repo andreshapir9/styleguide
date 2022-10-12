@@ -18,43 +18,43 @@ const DATA = [
     title: "antiquewhite"
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d71",
     title: "aqua",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7a",
     title: "aquamarine",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7b",
     title: "azure"
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7c",
     title: "beige",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7d",
     title: "bisque",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7e",
     title: "blanchedalmond",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7f",
     title: "blue",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7g",
     title: "blueviolet",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7h",
     title: "brown",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    id: "58694a0f-3da1-471f-bd96-145571e29d7i",
     title: "burlywood",
   },
 ];

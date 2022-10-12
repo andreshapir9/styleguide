@@ -14,10 +14,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 export default function MainView({ navigation }) {
 
   return (
-    <View style={styles.container}>
-      <text>
+    <View>
+      <Text>
         Hello!
-      </text>
+      </Text>
     </View>
   )
 }

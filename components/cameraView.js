@@ -6,8 +6,8 @@
  * transition to the recommendationView with that view getting 
  * the color selected as an argument.
  */
-import * as React from 'react';
-import { Button, Text, View } from 'react-native';
+// import * as React from 'react';
+// import { Button, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -27,7 +27,7 @@ export default function CameraView({ navigation }) {
 
   const permisionFunction = async () => {
     // here is how you can get the camera permission
-    const cameraPermission = await Camera.requestPermissionsAsync();
+    const cameraPermission = await Camera.requestCameraPermissionsAsync();
 
     setCameraPermission(cameraPermission.status === 'granted');
 
