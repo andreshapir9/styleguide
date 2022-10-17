@@ -25,6 +25,44 @@ class SG_Color {
   ComplementaryColor() {
     return `rgb(${255 - this.r}, ${255 - this.g}, ${255 - this.b})`
   }
+  TriadColors(r, g, b) {
+    /*
+    call function to convert
+    get each value returned for r, g, b
+    subtract 120, add 120 depending?
+    return the values
+    do similar thing to other color class
+    */
+  }
+
+  rgbTohsv(r, g, b) {
+    r = r /255.0;
+    g = g /255.0;
+    b = b /255.0;
+
+    var cmax = Math.max(r, Math.max(g, b));
+    var cmin = Math.min(r, Math.min(g, b));
+    var diff = cmax - cmin;
+    var h = -1, s = -1;
+
+    if(cmax == cmin)
+      h = 0;
+    else if(cmax == r)
+      h = (60 * ((g - b) / diff) + 360) % 360;
+    else if(cmax == g)
+      h = (60 * ((b - r) / diff) + 120) % 360;
+    else if(cmax == b)
+      h = (60 * ((r - g) / diff) + 240) % 360;
+
+    if(cmax == 0)
+      s = 0;
+    else
+      s = (diff / cmax) * 100;
+
+    var v = cmax * 100;
+    document.write("(" + h.toFixed(1) + ", " + s + ", " + v + ")");
+
+  }
 }
 
 const DATA = [
