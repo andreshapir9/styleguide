@@ -6,12 +6,6 @@
  * transition to the recommendationView with that view getting 
  * the color selected as an argument.
  */
-// import * as React from 'react';
-// import { Button, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Image, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
 import { Camera } from 'expo-camera';
@@ -29,10 +23,8 @@ export default function CameraView({ navigation }) {
   const [imageUriWidth, setImageUriWidth] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [selected_pixel, setSelectedPixel] = useState(null);
-  const [select_x_coord, setSelectXCoord] = useState(null);
-  const [select_y_coord, setSelectYCoord] = useState(null);
 
-  const permisionFunction = async () => {
+  const permissionFunc = async () => {
     // here is how you can get the camera permission
     const cameraPermission = await Camera.requestCameraPermissionsAsync();
 
@@ -52,7 +44,7 @@ export default function CameraView({ navigation }) {
   };
 
   useEffect(() => {
-    permisionFunction();
+    permissionFunc();
   }, []);
 
   const takePicture = async () => {
@@ -89,11 +81,11 @@ export default function CameraView({ navigation }) {
   }
 
 
-  const getCoodinates = (evt) => {
+  const getCoordinates = (evt) => {
     console.log("x: " + evt.nativeEvent.locationX);
     console.log("y: " + evt.nativeEvent.locationY);
     //lets print the size of the image vs the size of the image on the screen
-    //the image oin the screeen is 400*250
+    //the image oin the screen is 400*250
     console.log("imageUriHeight: " + imageUriHeight);
     console.log("imageUriWidth: " + imageUriWidth);
     //lets get the ratio of the image on the screen vs the actual image
@@ -106,7 +98,7 @@ export default function CameraView({ navigation }) {
     let y = evt.nativeEvent.locationY * HeightRatio;
 
     //lets crete a dictionary of all the colors
-    var r=0, g=0, b=0;
+    let r=0, g=0, b=0;
     //we will traverse the image and get 2*2 pixels
     for (let i = x - 1; i<x+1;i++){
       for (let j = y - 1; j<y+1;j++){
@@ -115,7 +107,6 @@ export default function CameraView({ navigation }) {
           r += parseInt(color.substring(1,3), 16);
           g += parseInt(color.substring(3,5), 16);
           b += parseInt(color.substring(5,7), 16);
-          //console.log("r: " + r + " g: " + g + " b: " + b);
 
           //lets make sure we are at x and y
           if (i == x && j == y){
@@ -125,7 +116,7 @@ export default function CameraView({ navigation }) {
             b = Math.round(b/4);
             console.log("r: " + r + " g: " + g + " b: " + b);
             //lets convert to hex
-            var hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+            let hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
              console.log("hex: " + hex);
             setSelectedPixel(hex);
             console.log("selected_pixel: " + selected_pixel);
@@ -155,7 +146,7 @@ export default function CameraView({ navigation }) {
       <Button title={'Gallery'} onPress={pickImage} />
   
         {imageUri && 
-        <TouchableWithoutFeedback onPress={getCoodinates}>
+        <TouchableWithoutFeedback onPress={getCoordinates}>
           <Image source={{ uri: imageUri }} style={{ flex: 1 }} />
         </TouchableWithoutFeedback>
         }
