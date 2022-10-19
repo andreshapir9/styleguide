@@ -6,16 +6,12 @@
  * transition to the recommendationView with that view getting 
  * the color selected as an argument.
  */
-// import * as React from 'react';
-// import { Button, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import PixelColor from 'react-native-pixel-color';
+import { GetColorName } from 'hex-color-to-color-name';
 
 export default function CameraView({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -23,9 +19,12 @@ export default function CameraView({ navigation }) {
 
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+  const [imageUriHeight, setImageUriHeight] = useState(null);
+  const [imageUriWidth, setImageUriWidth] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [selected_pixel, setSelectedPixel] = useState(null);
 
-  const permisionFunction = async () => {
+  const permissionFunc = async () => {
     // here is how you can get the camera permission
     const cameraPermission = await Camera.requestCameraPermissionsAsync();
 
@@ -45,7 +44,7 @@ export default function CameraView({ navigation }) {
   };
 
   useEffect(() => {
-    permisionFunction();
+    permissionFunc();
   }, []);
 
   const takePicture = async () => {
@@ -53,6 +52,8 @@ export default function CameraView({ navigation }) {
       const data = await camera.takePictureAsync(null);
       console.log(data.uri);
       setImageUri(data.uri);
+      setImageUriHeight(data.height);
+      setImageUriWidth(data.width);
     }
   };
 
@@ -67,8 +68,68 @@ export default function CameraView({ navigation }) {
     console.log(result);
     if (!result.cancelled) {
       setImageUri(result.uri);
+      setImageUriHeight(result.height);
+      setImageUriWidth(result.width);
     }
   };
+
+  const getBackgroundColor = () => {
+    if (selected_pixel) {
+      return selected_pixel;
+    }
+    return '#ffffff';
+  }
+
+
+  const getCoordinates = (evt) => {
+    console.log("x: " + evt.nativeEvent.locationX);
+    console.log("y: " + evt.nativeEvent.locationY);
+    //lets print the size of the image vs the size of the image on the screen
+    //the image oin the screen is 400*250
+    console.log("imageUriHeight: " + imageUriHeight);
+    console.log("imageUriWidth: " + imageUriWidth);
+    //lets get the ratio of the image on the screen vs the actual image
+    let HeightRatio = imageUriHeight / 250;
+    let WidthRatio = imageUriWidth / 400;
+    console.log("HeightRatio: " + HeightRatio);
+    console.log("WidthRatio: " + WidthRatio);
+    //lets get the actual x and y coordinates of the image
+    let x = evt.nativeEvent.locationX * WidthRatio;
+    let y = evt.nativeEvent.locationY * HeightRatio;
+
+    //lets crete a dictionary of all the colors
+    let r=0, g=0, b=0;
+    //we will traverse the image and get 2*2 pixels
+    for (let i = x - 1; i<x+1;i++){
+      for (let j = y - 1; j<y+1;j++){
+        //get the color of the pixel
+        PixelColor.getHex(imageUri, {x: i, y: j}).then((color) => {
+          r += parseInt(color.substring(1,3), 16);
+          g += parseInt(color.substring(3,5), 16);
+          b += parseInt(color.substring(5,7), 16);
+
+          //lets make sure we are at x and y
+          if (i == x && j == y){
+            //lets get the average as integers
+            r = Math.round(r/4);
+            g = Math.round(g/4);
+            b = Math.round(b/4);
+            console.log("r: " + r + " g: " + g + " b: " + b);
+            //lets convert to hex
+            let hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+             console.log("hex: " + hex);
+            setSelectedPixel(hex);
+            console.log("selected_pixel: " + selected_pixel);
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+    }
+  }
+
+
+
 
   return (
     <View style={styles.container}>
@@ -83,7 +144,15 @@ export default function CameraView({ navigation }) {
 
       <Button title={'Take Picture'} onPress={takePicture} />
       <Button title={'Gallery'} onPress={pickImage} />
-      {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
+  
+        {imageUri && 
+        <TouchableWithoutFeedback onPress={getCoordinates}>
+          <Image source={{ uri: imageUri }} style={{ flex: 1 }} />
+        </TouchableWithoutFeedback>
+        }
+      <SafeAreaView style = {styles.colorRecognition} backgroundColor = {getBackgroundColor()}>
+      <Text style = {styles.colorText}>{GetColorName(getBackgroundColor())}</Text>
+      </SafeAreaView>
     </View>
   );
 }
@@ -105,5 +174,17 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: 'flex-end',
     alignItems: 'center',
+  },
+  colorRecognition: {
+    backgroundColor: 'white',
+    height: 100, 
+    flexDirection: 'row', 
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontSize: 40,
+  },
+  colorText: {
+    alignSelf: 'center',
+    fontSize: 40,
   },
 });
