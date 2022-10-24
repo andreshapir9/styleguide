@@ -9,12 +9,15 @@ import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity }
 import { Appearance } from 'react-native';
 
 
-// Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors. For your other scheme you could do the same but just +/- something small like 15 degrees. The conversion to/from HSV you can perform pretty easily.
+// Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors. 
+//For your other scheme you could do the same but just +/- something small like 15 degrees. 
+//The conversion to/from HSV you can perform pretty easily.
 class SG_Color {
   constructor(red, green, blue) {
     this.r = red;
     this.g = green;
     this.b = blue;
+
   }
   RGB() {
     return `rgb(${this.r}, ${this.g}, ${this.b})`
@@ -24,6 +27,45 @@ class SG_Color {
   }
   ComplementaryColor() {
     return `rgb(${255 - this.r}, ${255 - this.g}, ${255 - this.b})`
+  }
+  TriadColors(r, g, b) {
+    /*
+    call function to convert
+    get each value returned for r, g, b
+    subtract 120, add 120 depending?
+    return the values
+    do similar thing to other color class
+    */
+  }
+
+  rgbTohsv(r, g, b) {
+  var r_p = r/255;
+  var g_p = g/255;
+  var b_p = b/255;
+
+  var max = Math.max(r_p,g_p,b_p);
+  var min = Math.min(r_p,g_p,b_p);
+  var diff = max - min;
+
+  var h = -1;
+  var s = -1;
+  var v = (max*100);//v: final value
+
+  if(diff == 0)
+    h = 0;
+  else if(max == r_p)
+    h = (60 * ((g_p - b_p) / diff) + 360) % 360;
+  else if(max == g_p)
+    h = (60 * ((b_p - r_p) / diff) + 120) % 360;
+  else if(max == b_p)
+    h = (60 * ((r_p - g_p) / diff) + 240) % 360; //h: final value depends on what if statement
+
+  if(max == 0)
+    s = 0;
+  else
+    s = ((diff / max) * 100); //s: final value depends if max == 0
+  
+  return [h, s, v];
   }
 }
 
