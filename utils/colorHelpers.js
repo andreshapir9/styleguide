@@ -54,18 +54,17 @@ class SG_Color {
   if(diff == 0)
     h = 0;
   else if(max == r_p)
-    h = (60 * ((g_p - b_p) / diff) % 6);
+    h = (60 * ((g_p - b_p) / diff) + 360) % 360;
   else if(max == g_p)
-    h = (60 * ((b_p - r_p) / diff) + 2);
+    h = (60 * ((b_p - r_p) / diff) + 120) % 360;
   else if(max == b_p)
-    h = (60 * ((r_p - g_p) / diff) + 4); //h: final value depends on what if statement
+    h = (60 * ((r_p - g_p) / diff) + 240) % 360; //h: final value depends on what if statement
 
   if(max == 0)
     s = 0;
   else
     s = ((diff / max) * 100); //s: final value depends if max == 0
   
-  h *= 100;
   return [h, s, v];
   }
 }
