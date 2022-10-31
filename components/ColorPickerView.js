@@ -14,7 +14,7 @@ export default function ColorPickerView({ navigation }) {
     <View style={{ flex: 1, padding: 45, backgroundColor: '#212021' }}>
       <Text style={{ color: 'white' }}>React Native Color Picker - Controlled</Text>
       <TriangleColorPicker
-        oldColor='purple'
+        oldColor='black'
         color={SelColor}
         onColorChange={(color) => SetSelColor(color)}
         // HERE

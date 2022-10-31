@@ -70,9 +70,9 @@ const App = () => {
       <Tab.Navigator>
         <Tab.Screen name="Home" component={MainView} />
         <Tab.Screen name="Camera" component={CameraView} />
+        <Tab.Screen name="ColorPick" component={ColorPickerView} />
         <Tab.Screen name="Recommendations" component={RecommendationView} />
         {/* <Tab.Screen name="TouchSel" component={TouchSelect} /> */}
-        <Tab.Screen name="ColorPick" component={ColorPickerView} />
       </Tab.Navigator>
     </NavigationContainer>
   )

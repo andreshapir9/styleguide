@@ -85,6 +85,10 @@ export default function CameraView({ navigation }) {
   const getCoordinates = (evt) => {
     console.log("x: " + evt.nativeEvent.locationX);
     console.log("y: " + evt.nativeEvent.locationY);
+    let hex = ""
+    // navigation.navigate('Recommendations', {
+    //   SelectedColor: toHsv(hex)
+    // })
     //lets print the size of the image vs the size of the image on the screen
     //the image oin the screen is 400*250
     console.log("imageUriHeight: " + imageUriHeight);
@@ -117,7 +121,7 @@ export default function CameraView({ navigation }) {
             b = Math.round(b / 4);
             console.log("r: " + r + " g: " + g + " b: " + b);
             //lets convert to hex
-            let hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+            hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
             console.log("hex: " + hex);
             setSelectedPixel(hex);
             console.log("selected_pixel: " + selected_pixel);
