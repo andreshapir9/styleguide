@@ -15,14 +15,8 @@ import {
 } from 'react-native';
 import { Appearance } from 'react-native';
 
-<<<<<<< HEAD
 //Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors.
 //For your other scheme you could do the same but just +/- something small like 15 degrees.
-=======
-
-//Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors. 
-//For your other scheme you could do the same but just +/- something small like 15 degrees. 
->>>>>>> ec1c414 (added last color class and comments to explain functions/code)
 //The conversion to/from HSV you can perform pretty easily.
 
 //helper function to instantiate color class with given rgb values
@@ -37,11 +31,7 @@ export function SGCFromHSV(h, s, v) {
   r = rgb[0];
   g = rgb[1];
   b = rgb[2];
-<<<<<<< HEAD
   return new SG_Color(r, g, b); //returns by instantiating values into class
-=======
-  return new SG_Color(r, g, b) //returns by instantiating values into class
->>>>>>> ec1c414 (added last color class and comments to explain functions/code)
 }
 
 //function used to mathematically convert hsv values to rgb then returned back
@@ -99,7 +89,7 @@ export function HSVTORGB(h, s, v) {
 }
 
 //root color class that makes member variables for RGB and HSV
-class SG_Color {
+export class SG_Color {
   constructor(red, green, blue) {
     this.r = red;
     this.g = green;
@@ -118,7 +108,6 @@ class SG_Color {
   }
 
   //returns RGB values of object
-<<<<<<< HEAD
   RGB() {
     return `rgb(${this.r}, ${this.g}, ${this.b})`;
   }
@@ -126,15 +115,6 @@ class SG_Color {
   //returns HSV values of object
   HSV() {
     return `hsv(${this.h}, ${this.s}, ${this.v})`;
-=======
-  RGB() { 
-    return `rgb(${this.r}, ${this.g}, ${this.b})`
-  }
-
-  //returns HSV values of object
-  HSV() { 
-    return `hsv(${this.h}, ${this.s}, ${this.v})`
->>>>>>> ec1c414 (added last color class and comments to explain functions/code)
   }
 
   //returns the blue value of the object
@@ -142,15 +122,9 @@ class SG_Color {
     return 'blue';
   }
 
-<<<<<<< HEAD
   //color function that returns the complementary color of object
   ComplementaryColor() {
     return `rgb(${255 - this.r}, ${255 - this.g}, ${255 - this.b})`;
-=======
-  //color function that returns the complementary color of object 
-  ComplementaryColor() {  
-    return `rgb(${255 - this.r}, ${255 - this.g}, ${255 - this.b})`
->>>>>>> ec1c414 (added last color class and comments to explain functions/code)
   }
 
   //color function that instantiates two more objects and alters its hue value by 120 degrees in order to return proper colors
@@ -166,14 +140,8 @@ class SG_Color {
 
     return [c1, c2];
   }
-<<<<<<< HEAD
   //color function that instantiates three more objects and alters its hue value by 90 degrees in order to return proper colors
   SquareColors() {
-=======
-  
-    //color function that instantiates three more objects and alters its hue value by 90 degrees in order to return proper colors
-  SquareColors(){
->>>>>>> ec1c414 (added last color class and comments to explain functions/code)
     var c1 = SGCFromRGB(this.r, this.g, this.b);
     var c2 = SGCFromRGB(this.r, this.g, this.b);
     var c3 = SGCFromRGB(this.r, this.g, this.b);
