@@ -7,57 +7,9 @@
 import React, { useState } from "react";
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Appearance } from 'react-native';
+import { SG_Color, DATA, HSVTORGB } from "../utils/colorHelpers";
+import { toHsv } from 'react-native-color-picker'
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "aliceblue"
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "antiquewhite"
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d71",
-    title: "aqua",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7a",
-    title: "aquamarine",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7b",
-    title: "azure"
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7c",
-    title: "beige",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7d",
-    title: "bisque",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7e",
-    title: "blanchedalmond",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7f",
-    title: "blue",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7g",
-    title: "blueviolet",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7h",
-    title: "brown",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d7i",
-    title: "burlywood",
-  },
-];
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -65,22 +17,36 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-export default function RecommendationView({ navigation }) {
+export default function RecommendationView({ route }) {
   const [selectedId, setSelectedId] = useState(null);
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.title;
-    const color = 'black'
+  var SelectedColor = route.params.SelectedColor
+  console.log(route)
 
+  const renderItem = ({ item }) => {
+    let sg1 = new SG_Color(item.color[0], item.color[1], item.color[2])
+    const bgColor = sg1.RGB()
+    const color = "black"
+    const compColor = sg1.ComplementaryColor()
     return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={{ backgroundColor }}
-        textColor={{ color }}
-      />
+      <>
+        <Item
+          item={item}
+          // onPress={() => setSelectedId(item.id)}
+          backgroundColor={{ backgroundColor: bgColor }}
+          textColor={{ color }}
+        />
+        <Item
+          item={item}
+          // onPress={() => setSelectedId(item.id)}
+          backgroundColor={{ backgroundColor: compColor }}
+          textColor={{ color }}
+        />
+      </>
     );
   };
 
+  DATA.push({ id: "SelectedColor_" + Math.floor(Math.random() * 10000), title: "SelectedColor", color: HSVTORGB(SelectedColor.h, SelectedColor.s, SelectedColor.v) });
+  console.log(DATA)
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
