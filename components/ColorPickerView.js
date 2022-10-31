@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { TriangleColorPicker, toHsv } from 'react-native-color-picker'
-
+import { SG_Color, SGCFromHSV, HSVTORGB } from '../utils/colorHelpers'
 
 export default function ColorPickerView({ navigation }) {
   const [SelColor, SetSelColor] = useState(toHsv('green')) // initalize with green
@@ -19,7 +19,7 @@ export default function ColorPickerView({ navigation }) {
         onColorChange={(color) => SetSelColor(color)}
         // HERE
         onColorSelected={color => navigation.navigate('Recommendations', {
-          SelectedColor: color
+          SelectedColor: toHsv(color)
         })}
         // onColorSelected={color => alert(`Color selected: ${color}`)}
         // onOldColorSelected={color => alert(`Old color selected: ${color}`)}

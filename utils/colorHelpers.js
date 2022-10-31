@@ -12,12 +12,51 @@ import { Appearance } from 'react-native';
 // Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors. 
 //For your other scheme you could do the same but just +/- something small like 15 degrees. 
 //The conversion to/from HSV you can perform pretty easily.
+
+export function SGCFromRGB(r, g, b) {
+  return SG_Color(r, g, b)
+}
+export function SGCFromHSV(h, s, v) {
+  m = SG_Color(0, 0, 0)
+  rbg = m.hsvTorgb(h, s, v)
+  r = rbg[0]
+  g = rbg[1]
+  b = rbg[2]
+  return SG_Color(r, g, b)
+}
+export function HSVTORGB(h, s, v) {
+  // v /= 100;
+  // s /= 100;
+  console.log(h)
+  console.log(s)
+  console.log(v)
+  var c = v * s;
+  var h_p = h / 60;
+  var x = c * (1 - Math.abs((h_p) % 2 - 1));
+
+  var r, g, b;
+
+  if (h_p >= 0 && h_p < 1) { r = c; g = x; b = 0 }
+  if (h_p >= 1 && h_p < 2) { r = x; g = c; b = 0 }
+  if (h_p >= 2 && h_p < 3) { r = 0; g = c; b = x }
+  if (h_p >= 3 && h_p < 4) { r = 0; g = x; b = c }
+  if (h_p >= 4 && h_p < 5) { r = x; g = 0; b = c }
+  if (h_p >= 5 && h_p < 6) { r = c; g = 0; b = x }
+
+  var m = v - c;
+  r = (r + m) * 255;
+  g = (g + m) * 255;
+  b = (b + m) * 255;
+  console.log(r)
+  console.log(g)
+  console.log(b)
+  return [r, g, b]
+}
 export class SG_Color {
   constructor(red, green, blue) {
     this.r = red;
     this.g = green;
     this.b = blue;
-
   }
   RGB() {
     return `rgb(${this.r}, ${this.g}, ${this.b})`
@@ -71,20 +110,20 @@ export class SG_Color {
   hsvTorgb(h, s, v) {
     v /= 100;
     s /= 100;
-  
+
     var c = v * s;
     var h_p = h / 60;
     var x = c * (1 - Math.abs((h_p) % 2 - 1));
 
     var r, g, b;
-  
-    if (h_p >= 0 && h_p < 1) { r = c; g = x; b = 0}
-    if (h_p >= 1 && h_p < 2) { r = x; g = c; b = 0}
-    if (h_p >= 2 && h_p < 3) { r = 0; g = c; b = x}
-    if (h_p >= 3 && h_p < 4) { r = 0; g = x; b = c}
-    if (h_p >= 4 && h_p < 5) { r = x; g = 0; b = c}
-    if (h_p >= 5 && h_p < 6) { r = c; g = 0; b = x}
-  
+
+    if (h_p >= 0 && h_p < 1) { r = c; g = x; b = 0 }
+    if (h_p >= 1 && h_p < 2) { r = x; g = c; b = 0 }
+    if (h_p >= 2 && h_p < 3) { r = 0; g = c; b = x }
+    if (h_p >= 3 && h_p < 4) { r = 0; g = x; b = c }
+    if (h_p >= 4 && h_p < 5) { r = x; g = 0; b = c }
+    if (h_p >= 5 && h_p < 6) { r = c; g = 0; b = x }
+
     var m = v - c;
     r = (r + m) * 255;
     g = (g + m) * 255;
@@ -95,20 +134,10 @@ export class SG_Color {
 }
 
 export const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "aliceblue",
-    color: [0, 0, 255],
-  },
   // {
-  //   id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-  //   title: "antiquewhite",
-  //   color: [255, 0, 0],
-  // },
-  // {
-  //   id: "58694a0f-3da1-471f-bd96-145571e29d72",
-  //   title: "aqua",
-  //   color: [0, 255, 0]
+  //   id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+  //   title: "aliceblue",
+  //   color: [0, 0, 255],
   // },
 ];
 

@@ -7,7 +7,7 @@
 import React, { useState } from "react";
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Appearance } from 'react-native';
-import { SG_Color, DATA } from "../utils/colorHelpers";
+import { SG_Color, DATA, HSVTORGB } from "../utils/colorHelpers";
 import { toHsv } from 'react-native-color-picker'
 
 
@@ -23,20 +23,29 @@ export default function RecommendationView({ route }) {
   console.log(route)
 
   const renderItem = ({ item }) => {
-    const backgroundColor = item.title;
-    const color = 'black'
-
+    let sg1 = new SG_Color(item.color[0], item.color[1], item.color[2])
+    const bgColor = sg1.RGB()
+    const color = "black"
+    const compColor = sg1.ComplementaryColor()
     return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={{ backgroundColor }}
-        textColor={{ color }}
-      />
+      <>
+        <Item
+          item={item}
+          // onPress={() => setSelectedId(item.id)}
+          backgroundColor={{ backgroundColor: bgColor }}
+          textColor={{ color }}
+        />
+        <Item
+          item={item}
+          // onPress={() => setSelectedId(item.id)}
+          backgroundColor={{ backgroundColor: compColor }}
+          textColor={{ color }}
+        />
+      </>
     );
   };
 
-  DATA.push({ id: SelectedColor, title: SelectedColor, color: SelectedColor });
+  DATA.push({ id: "SelectedColor_" + Math.floor(Math.random() * 10000), title: "SelectedColor", color: HSVTORGB(SelectedColor.h, SelectedColor.s, SelectedColor.v) });
   console.log(DATA)
   return (
     <SafeAreaView style={styles.container}>
