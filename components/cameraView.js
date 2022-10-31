@@ -10,9 +10,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Image, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-import PixelColor from 'react-native-pixel-color';
+//import PixelColor from 'react-native-pixel-color';
 import { GetColorName } from 'hex-color-to-color-name';
-import { toHsv } from 'react-native-color-picker';
+import GetPixelColor from 'react-native-get-pixel-color';
 
 export default function CameraView({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -101,17 +101,23 @@ export default function CameraView({ navigation }) {
     //lets get the actual x and y coordinates of the image
     let x = evt.nativeEvent.locationX * WidthRatio;
     let y = evt.nativeEvent.locationY * HeightRatio;
-
+    
     //lets crete a dictionary of all the colors
-    let r = 0, g = 0, b = 0;
+    let r=0, g=0, b=0;
+    //lets set the image we want to get the color from
+    GetPixelColor.setImage(imageUri).then(() => {
+      console.log("image set");
+    }).catch((err) => {
+      console.log(err);
+    });
     //we will traverse the image and get 2*2 pixels
     for (let i = x - 1; i < x + 1; i++) {
       for (let j = y - 1; j < y + 1; j++) {
         //get the color of the pixel
-        PixelColor.getHex(imageUri, { x: i, y: j }).then((color) => {
-          r += parseInt(color.substring(1, 3), 16);
-          g += parseInt(color.substring(3, 5), 16);
-          b += parseInt(color.substring(5, 7), 16);
+        GetPixelColor.pickColorAt(x, y).then((color) => {
+          r += parseInt(color.substring(1,3), 16);
+          g += parseInt(color.substring(3,5), 16);
+          b += parseInt(color.substring(5,7), 16);
 
           //lets make sure we are at x and y
           if (i == x && j == y) {
@@ -134,6 +140,10 @@ export default function CameraView({ navigation }) {
         });
       }
     }
+
+
+
+
   }
 
 
