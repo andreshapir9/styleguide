@@ -12,6 +12,7 @@ import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import PixelColor from 'react-native-pixel-color';
 import { GetColorName } from 'hex-color-to-color-name';
+import { toHsv } from 'react-native-color-picker';
 
 export default function CameraView({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -98,28 +99,31 @@ export default function CameraView({ navigation }) {
     let y = evt.nativeEvent.locationY * HeightRatio;
 
     //lets crete a dictionary of all the colors
-    let r=0, g=0, b=0;
+    let r = 0, g = 0, b = 0;
     //we will traverse the image and get 2*2 pixels
-    for (let i = x - 1; i<x+1;i++){
-      for (let j = y - 1; j<y+1;j++){
+    for (let i = x - 1; i < x + 1; i++) {
+      for (let j = y - 1; j < y + 1; j++) {
         //get the color of the pixel
-        PixelColor.getHex(imageUri, {x: i, y: j}).then((color) => {
-          r += parseInt(color.substring(1,3), 16);
-          g += parseInt(color.substring(3,5), 16);
-          b += parseInt(color.substring(5,7), 16);
+        PixelColor.getHex(imageUri, { x: i, y: j }).then((color) => {
+          r += parseInt(color.substring(1, 3), 16);
+          g += parseInt(color.substring(3, 5), 16);
+          b += parseInt(color.substring(5, 7), 16);
 
           //lets make sure we are at x and y
-          if (i == x && j == y){
+          if (i == x && j == y) {
             //lets get the average as integers
-            r = Math.round(r/4);
-            g = Math.round(g/4);
-            b = Math.round(b/4);
+            r = Math.round(r / 4);
+            g = Math.round(g / 4);
+            b = Math.round(b / 4);
             console.log("r: " + r + " g: " + g + " b: " + b);
             //lets convert to hex
             let hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-             console.log("hex: " + hex);
+            console.log("hex: " + hex);
             setSelectedPixel(hex);
             console.log("selected_pixel: " + selected_pixel);
+            navigation.navigate('Recommendations', {
+              SelectedColor: toHsv(hex)
+            })
           }
         }).catch((err) => {
           console.log(err);
@@ -144,14 +148,14 @@ export default function CameraView({ navigation }) {
 
       <Button title={'Take Picture'} onPress={takePicture} />
       <Button title={'Gallery'} onPress={pickImage} />
-  
-        {imageUri && 
+
+      {imageUri &&
         <TouchableWithoutFeedback onPress={getCoordinates}>
           <Image source={{ uri: imageUri }} style={{ flex: 1 }} />
         </TouchableWithoutFeedback>
-        }
-      <SafeAreaView style = {styles.colorRecognition} backgroundColor = {getBackgroundColor()}>
-      <Text style = {styles.colorText}>{GetColorName(getBackgroundColor())}</Text>
+      }
+      <SafeAreaView style={styles.colorRecognition} backgroundColor={getBackgroundColor()}>
+        <Text style={styles.colorText}>{GetColorName(getBackgroundColor())}</Text>
       </SafeAreaView>
     </View>
   );
@@ -177,8 +181,8 @@ const styles = StyleSheet.create({
   },
   colorRecognition: {
     backgroundColor: 'white',
-    height: 100, 
-    flexDirection: 'row', 
+    height: 100,
+    flexDirection: 'row',
     justifyContent: 'center',
     textAlign: 'center',
     fontSize: 40,

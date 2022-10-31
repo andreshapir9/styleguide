@@ -21,8 +21,6 @@ export default function ColorPickerView({ navigation }) {
         onColorSelected={color => navigation.navigate('Recommendations', {
           SelectedColor: toHsv(color)
         })}
-        // onColorSelected={color => alert(`Color selected: ${color}`)}
-        // onOldColorSelected={color => alert(`Old color selected: ${color}`)}
         style={{ flex: 1 }}
       />
     </View>
