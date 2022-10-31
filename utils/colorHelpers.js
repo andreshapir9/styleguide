@@ -67,6 +67,31 @@ export class SG_Color {
 
     return [h, s, v];
   }
+
+  hsvTorgb(h, s, v) {
+    v /= 100;
+    s /= 100;
+  
+    var c = v * s;
+    var h_p = h / 60;
+    var x = c * (1 - Math.abs((h_p) % 2 - 1));
+
+    var r, g, b;
+  
+    if (h_p >= 0 && h_p < 1) { r = c; g = x; b = 0}
+    if (h_p >= 1 && h_p < 2) { r = x; g = c; b = 0}
+    if (h_p >= 2 && h_p < 3) { r = 0; g = c; b = x}
+    if (h_p >= 3 && h_p < 4) { r = 0; g = x; b = c}
+    if (h_p >= 4 && h_p < 5) { r = x; g = 0; b = c}
+    if (h_p >= 5 && h_p < 6) { r = c; g = 0; b = x}
+  
+    var m = v - c;
+    r = (r + m) * 255;
+    g = (g + m) * 255;
+    b = (b + m) * 255;
+
+    return [r, g, b]
+  }
 }
 
 export const DATA = [
