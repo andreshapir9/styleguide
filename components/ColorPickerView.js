@@ -17,8 +17,12 @@ export default function ColorPickerView({ navigation }) {
         oldColor='purple'
         color={SelColor}
         onColorChange={(color) => SetSelColor(color)}
-        onColorSelected={color => alert(`Color selected: ${color}`)}
-        onOldColorSelected={color => alert(`Old color selected: ${color}`)}
+        // HERE
+        onColorSelected={color => navigation.navigate('Recommendations', {
+          SelectedColor: color
+        })}
+        // onColorSelected={color => alert(`Color selected: ${color}`)}
+        // onOldColorSelected={color => alert(`Old color selected: ${color}`)}
         style={{ flex: 1 }}
       />
     </View>

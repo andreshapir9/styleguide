@@ -12,7 +12,7 @@ import { Appearance } from 'react-native';
 // Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors. 
 //For your other scheme you could do the same but just +/- something small like 15 degrees. 
 //The conversion to/from HSV you can perform pretty easily.
-class SG_Color {
+export class SG_Color {
   constructor(red, green, blue) {
     this.r = red;
     this.g = green;
@@ -39,52 +39,52 @@ class SG_Color {
   }
 
   rgbTohsv(r, g, b) {
-  var r_p = r/255;
-  var g_p = g/255;
-  var b_p = b/255;
+    var r_p = r / 255;
+    var g_p = g / 255;
+    var b_p = b / 255;
 
-  var max = Math.max(r_p,g_p,b_p);
-  var min = Math.min(r_p,g_p,b_p);
-  var diff = max - min;
+    var max = Math.max(r_p, g_p, b_p);
+    var min = Math.min(r_p, g_p, b_p);
+    var diff = max - min;
 
-  var h = -1;
-  var s = -1;
-  var v = (max*100);//v: final value
+    var h = -1;
+    var s = -1;
+    var v = (max * 100);//v: final value
 
-  if(diff == 0)
-    h = 0;
-  else if(max == r_p)
-    h = (60 * ((g_p - b_p) / diff) + 360) % 360;
-  else if(max == g_p)
-    h = (60 * ((b_p - r_p) / diff) + 120) % 360;
-  else if(max == b_p)
-    h = (60 * ((r_p - g_p) / diff) + 240) % 360; //h: final value depends on what if statement
+    if (diff == 0)
+      h = 0;
+    else if (max == r_p)
+      h = (60 * ((g_p - b_p) / diff) + 360) % 360;
+    else if (max == g_p)
+      h = (60 * ((b_p - r_p) / diff) + 120) % 360;
+    else if (max == b_p)
+      h = (60 * ((r_p - g_p) / diff) + 240) % 360; //h: final value depends on what if statement
 
-  if(max == 0)
-    s = 0;
-  else
-    s = ((diff / max) * 100); //s: final value depends if max == 0
-  
-  return [h, s, v];
+    if (max == 0)
+      s = 0;
+    else
+      s = ((diff / max) * 100); //s: final value depends if max == 0
+
+    return [h, s, v];
   }
 }
 
-const DATA = [
+export const DATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
     title: "aliceblue",
     color: [0, 0, 255],
   },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "antiquewhite",
-    color: [255, 0, 0],
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "aqua",
-    color: [0, 255, 0]
-  },
+  // {
+  //   id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+  //   title: "antiquewhite",
+  //   color: [255, 0, 0],
+  // },
+  // {
+  //   id: "58694a0f-3da1-471f-bd96-145571e29d72",
+  //   title: "aqua",
+  //   color: [0, 255, 0]
+  // },
 ];
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
