@@ -24,7 +24,8 @@ export default function MainView({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    backgroundColor: '#121212'
   },
   logo: {
     width: 280,
@@ -34,7 +35,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'black',
-    marginTop: '50%',
-    marginLeft: '40%'
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

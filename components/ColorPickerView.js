@@ -11,7 +11,7 @@ export default function ColorPickerView({ navigation }) {
   // }
 
   return (
-    <View style={{ flex: 1, padding: 45, backgroundColor: '#212021' }}>
+    <View style={{ flex: 1, padding: 45, backgroundColor: '#121212' }}>
       <Text style={{ color: 'white' }}>React Native Color Picker - Controlled</Text>
       <TriangleColorPicker
         oldColor='black'
