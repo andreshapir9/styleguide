@@ -1,5 +1,4 @@
 export default {
-<<<<<<< HEAD
   // Darkmode consistancy
   d_background: '#121212',
   d_menus: '#181818',
@@ -9,8 +8,6 @@ export default {
   d_secondarytext: '#B3B3B3',
 
   // Other colors
-=======
->>>>>>> 53f66f2 (UI view start.)
   primary: "#D17842",
   secondary: "#52555A",
   dark: "#0C0F14",
