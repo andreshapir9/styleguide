@@ -52,6 +52,7 @@ export function HSVTORGB(h, s, v) {
   console.log(b)
   return [r, g, b]
 }
+
 class SG_Color {
   constructor(red, green, blue) {
     this.r = red;
