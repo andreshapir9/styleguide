@@ -44,8 +44,8 @@ export default function RecommendationView({ route }) {
       </>
     );
   };
-
-  DATA.push({ id: "SelectedColor_" + Math.floor(Math.random() * 10000), title: "SelectedColor", color: HSVTORGB(SelectedColor.h, SelectedColor.s, SelectedColor.v) });
+  let randvar = Math.floor(Math.random() * 10000)
+  DATA.push({ id: "SelectedColor_" + randvar, title: "SelectedColor " + randvar, color: HSVTORGB(SelectedColor.h, SelectedColor.s, SelectedColor.v) });
   console.log(DATA)
   return (
     <SafeAreaView style={styles.container}>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: '#1A1A1A'
+    backgroundColor: '#121212'
   },
   item: {
     padding: 50,
