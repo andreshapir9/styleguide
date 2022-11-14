@@ -14,15 +14,14 @@ import { Appearance } from 'react-native';
 //The conversion to/from HSV you can perform pretty easily.
 
 export function SGCFromRGB(r, g, b) {
-  return SG_Color(r, g, b)
+  return new SG_Color(r, g, b)
 }
 export function SGCFromHSV(h, s, v) {
-  m = SG_Color(0, 0, 0)
-  rbg = m.hsvTorgb(h, s, v)
-  r = rbg[0]
-  g = rbg[1]
-  b = rbg[2]
-  return SG_Color(r, g, b)
+  rgb = HSVTORGB(h, s, v)
+  r = rgb[0]
+  g = rgb[1]
+  b = rgb[2]
+  return new SG_Color(r, g, b)
 }
 export function HSVTORGB(h, s, v) {
   // v /= 100;
@@ -70,19 +69,23 @@ class SG_Color {
   RGB() {
     return `rgb(${this.r}, ${this.g}, ${this.b})`
   }
+  HSV() {
+    return `hsv(${this.h}, ${this.s}, ${this.v})`
+  }
   blue() {
     return "blue"
   }
   ComplementaryColor() {
     return `rgb(${255 - this.r}, ${255 - this.g}, ${255 - this.b})`
   }
-  TriadColors(r, g, b) {
-    rgbTohsv(r, g, b);
-    var c1 = SG_Color(r,g,b);
-    var c2 = SG_Color(r,g,b);
+  TriadColors() { //done
+    var c1 = SGCFromRGB(this.r, this.g, this.b);
+    var c2 = SGCFromRGB(this.r, this.g, this.b);
     c1.h += 120;
+    c1.h = c1.h % 360;
     c1.UpdateRGB();
     c2.h -= 120;
+    c2.h = c2.h % 360;
     c2.UpdateRGB();
     return [c1, c2];
     //call function to convert
@@ -182,11 +185,11 @@ class SG_Color {
 }
 
 export const DATA = [
-  // {
-  //   id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-  //   title: "aliceblue",
-  //   color: [0, 0, 255],
-  // },
+   {
+     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+     title: "aliceblue",
+     color: [100, 100, 255],
+   },
 ];
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -201,6 +204,11 @@ const App = () => {
   const [selectedId, setSelectedId] = useState(null);
   const renderItem = ({ item }) => {
     let sg1 = new SG_Color(item.color[0], item.color[1], item.color[2])
+    console.log(sg1.RGB());
+    console.log(sg1.HSV());
+    let [c1, c2] = sg1.TriadColors()
+    console.log(c1.HSV())
+    console.log(c2.HSV())
     const bgColor = sg1.RGB()
     const color = "black"
     const compColor = sg1.ComplementaryColor()
