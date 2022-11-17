@@ -8,6 +8,7 @@ import RecommendationView from './components/recommendationView'
 import MainView from './components/mainView'
 import ColorPickerView from './components/ColorPickerView';
 import appcolors from './config/appcolors';
+import PopularPaletteView from './components/PopularPaletteView';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +41,7 @@ const App = () => {
         })}
       >
         <Tab.Screen name="Home" component={MainView} />
-        <Tab.Screen name="Popular" component={ColorPickerView} />
+        <Tab.Screen name="Popular" component={PopularPaletteView} />
         <Tab.Screen name="Camera" component={CameraView} />
         <Tab.Screen name="ColorPick" component={ColorPickerView} />
         <Tab.Screen name="Recommendations" component={RecommendationView} />

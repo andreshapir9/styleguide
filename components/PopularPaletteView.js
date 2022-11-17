@@ -8,16 +8,15 @@ import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity }
 import { Appearance } from 'react-native';
 import { SG_Color, DATA, HSVTORGB } from "../utils/colorHelpers";
 import { toHsv } from 'react-native-color-picker'
+import ItemsCarousel from "./ItemsCarousel";
+import categories from "../config/categories.js"
 
-
-
-export default function RecommendationView({ route }) {
+export default function PopularPaletteView({ route }) {
   const [selectedId, setSelectedId] = useState(null);
-  var SelectedColor = route.params.SelectedColor
   console.log(route)
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Hi :)</Text>
+      <ItemsCarousel />
     </SafeAreaView>
   );
 };
