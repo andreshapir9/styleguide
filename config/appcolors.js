@@ -1,4 +1,13 @@
 export default {
+  // Darkmode consistancy
+  d_background: '#121212',
+  d_menus: '#181818',
+  d_topgradient: '#404040',
+  d_bottomgradient: '#282828',
+  d_primarytext: '#ffffff',
+  d_secondarytext: '#B3B3B3',
+
+  // Other colors
   primary: "#D17842",
   secondary: "#52555A",
   dark: "#0C0F14",

@@ -1,14 +1,14 @@
-import { StyleSheet, Text, useWindowDimensions, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, useWindowDimensions, View, Image, ImageBackground, TouchableOpacity } from "react-native";
 import React from "react";
 import { Carousel, Pagination } from "react-native-snap-carousel";
 import { Ionicons } from "@expo/vector-icons";
-import { categories } from "../config/categories";
 import { useNavigation } from '@react-navigation/native'
+import appcolors from "../config/appcolors";
 
 
-// TODO: Figure out how to pas
+// Expects a list of Items formated like categories.js
 const ItemsCarousel = (categories) => {
-  console.log(categories.categories);
+  console.log(categories);
   const [activeDotIndex, setActiveDotIndex] = React.useState(0);
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
@@ -31,15 +31,18 @@ const ItemsCarousel = (categories) => {
 const renderItem = ({ item, index }) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('PaletteView')}>
-      <View style={[styles.item, { backgroundColor: '#D1D1D1' }]}>
-        <View style={styles.itemHeader}>
-          <Text style={styles.headerText}>New</Text>
-          <TouchableOpacity>
-            <Ionicons name={item.isLiked ? "heart" : "heart-outline"} size={12} color="black" />
-          </TouchableOpacity>
-        </View>
-        <Image source={item.image} style={styles.itemImage} />
-        <Text style={styles.title}>{item.name}</Text>
+      <View style={[styles.item, { backgroundColor: appcolors.d_menus }]}>
+        <ImageBackground source={item.image} style={styles.itemImage}>
+          <View style={styles.itemHeader}>
+            <Text style={styles.headerText}>{item.name}</Text>
+            <TouchableOpacity>
+              <Ionicons name={item.isLiked ? "heart" : "heart-outline"} size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.description}>{item.description}</Text>
+          <View style={styles.itemFooter}>
+          </View>
+        </ImageBackground>
       </View>
     </TouchableOpacity>
   );
@@ -49,15 +52,21 @@ export default ItemsCarousel
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 25,
+    paddingTop: 60,
+    paddingBottom: 60,
+    paddingHorizontal: 0,
   },
   item: {
     padding: 15,
     borderRadius: 15,
+    width: '115%',
+    overflow: "hidden"
   },
-  title: {
-    color: 'black',
-    fontWeight: '500',
+  description: {
+    color: appcolors.d_primarytext,
+    fontWeight: '800',
+    bottom: '0%',
+
   },
   itemHeader: {
     flexDirection: 'row',
@@ -65,15 +74,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15
   },
+  itemFooter: { // TODO: Work on getting this to show properly or just forget it cuz im spending too much time on a footer of an image instead of actually moving on and this should really just be a stretch goal.. im sleepy.
+    backgroundColor: appcolors.d_topgradient,
+    // position: "relative",
+    height: '15%',
+    // bottom: 0,
+    flex: 1,
+    opacity: 0.75,
+  },
   headerText: {
-    fontSize: 12,
-    fontWeight: "300"
+    position: "relative",
+    fontSize: 15,
+    fontWeight: "500",
+    color: appcolors.d_primarytext
   },
   itemImage: {
     width: '100%',
-    height: 'auto',
-    aspectRatio: 2 / 3,
-    alignSelf: 'center',
-    marginBottom: 10,
+    height: '100%',
+    resizeMode: "cover",
   }
 })
