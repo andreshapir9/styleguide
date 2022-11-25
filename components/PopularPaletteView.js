@@ -9,14 +9,14 @@ import { Appearance } from 'react-native';
 import { SG_Color, DATA, HSVTORGB } from "../utils/colorHelpers";
 import { toHsv } from 'react-native-color-picker'
 import ItemsCarousel from "./ItemsCarousel";
-import categories from "../config/categories.js"
 
 export default function PopularPaletteView({ route }) {
   const [selectedId, setSelectedId] = useState(null);
-  console.log(route)
+  console.log(route);
+  let categories = require('../config/categories');
   return (
     <SafeAreaView style={styles.container}>
-      <ItemsCarousel />
+      <ItemsCarousel categories={categories.categories} />
     </SafeAreaView>
   );
 };
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: '#121212'
+    backgroundColor: '#ABCDE0'
   },
   item: {
     padding: 50,

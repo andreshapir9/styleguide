@@ -1,36 +1,47 @@
-import { StyleSheet, Text, useWindowDimensions, View, Image } from "react-native";
+import { StyleSheet, Text, useWindowDimensions, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { Carousel } from "react-native-snap-carousel";
+import { Carousel, Pagination } from "react-native-snap-carousel";
 import { Ionicons } from "@expo/vector-icons";
 import { categories } from "../config/categories";
+import { useNavigation } from '@react-navigation/native'
 
-const ItemsCarousel = () => {
-  console.log(categories);
+
+// TODO: Figure out how to pas
+const ItemsCarousel = (categories) => {
+  console.log(categories.categories);
+  const [activeDotIndex, setActiveDotIndex] = React.useState(0);
   const { width } = useWindowDimensions();
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Carousel
         activeSlideAlignment="center"
-        data={categories}
+        data={categories.categories}
         renderItem={renderItem}
         sliderWidth={width}
         itemWidth={width * 0.58}
         inactiveSlideScale={0.75}
+        onSnapToItem={index => setActiveDotIndex(index)}
       />
+      <Pagination activeDotIndex={activeDotIndex} dotsLength={categories.length} />
     </View>
   );
 };
 
 const renderItem = ({ item, index }) => {
   return (
-    <View style={[styles.item, { backgroundColor: '#D1D1D1' }]}>
-      <View style={styles.itemHeader}>
-        <Text style={styles.headerText}>New</Text>
-        <Ionicons name={item.isLiked ? "heart" : "heart-outline"} size={12} color="black" />
+    <TouchableOpacity onPress={() => navigation.navigate('PaletteView')}>
+      <View style={[styles.item, { backgroundColor: '#D1D1D1' }]}>
+        <View style={styles.itemHeader}>
+          <Text style={styles.headerText}>New</Text>
+          <TouchableOpacity>
+            <Ionicons name={item.isLiked ? "heart" : "heart-outline"} size={12} color="black" />
+          </TouchableOpacity>
+        </View>
+        <Image source={item.image} style={styles.itemImage} />
+        <Text style={styles.title}>{item.name}</Text>
       </View>
-      <Image source={item.image} style={styles.itemImage} />
-      <Text style={styles.title}>{item.name}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
