@@ -7,7 +7,7 @@
 import React, { useState } from "react";
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Appearance } from 'react-native';
-import { SG_Color, DATA, HSVTORGB } from "../utils/colorHelpers";
+import { SG_Color, DATA, HSVTORGB, SGCFromRGB, SGCFromHSV } from "../utils/colorHelpers";
 import { toHsv } from 'react-native-color-picker'
 
 
@@ -18,12 +18,20 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 );
 
 export default function RecommendationView({ route }) {
+  if (typeof route.params === "undefined") {
+    console.log("No selected color");
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.AbText}>No Selected Colors</Text>
+      </SafeAreaView >
+    );
+  }
   const [selectedId, setSelectedId] = useState(null);
   var SelectedColor = route.params.SelectedColor
   console.log(route)
 
   const renderItem = ({ item }) => {
-    let sg1 = new SG_Color(item.color[0], item.color[1], item.color[2])
+    let sg1 = SGCFromRGB(item.color[0], item.color[1], item.color[2])
     const bgColor = sg1.RGB()
     const color = "black"
     const compColor = sg1.ComplementaryColor()
@@ -63,7 +71,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: '#121212'
+    backgroundColor: '#121212',
+    position: "relative"
   },
   item: {
     padding: 50,
@@ -74,4 +83,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+  AbText: {
+    textAlign: 'center',
+    fontSize: 15,
+    color: 'white',
+    bottom: 0,
+    width: '100%',
+    position: "absolute"
+  }
 });

@@ -31,7 +31,7 @@ const ItemsCarousel = (categories) => {
 const renderItem = ({ item, index }) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('PaletteView')}>
-      <View style={[styles.item, { backgroundColor: appcolors.d_menus }]}>
+      <View style={[styles.item, { backgroundColor: appcolors.d_bottomgradient }]}>
         <ImageBackground source={item.image} style={styles.itemImage}>
           <View style={styles.itemHeader}>
             <Text style={styles.headerText}>{item.name}</Text>
@@ -39,9 +39,9 @@ const renderItem = ({ item, index }) => {
               <Ionicons name={item.isLiked ? "heart" : "heart-outline"} size={24} color="white" />
             </TouchableOpacity>
           </View>
-          <Text style={styles.description}>{item.description}</Text>
           <View style={styles.itemFooter}>
           </View>
+          <Text style={styles.description}>{item.description}</Text>
         </ImageBackground>
       </View>
     </TouchableOpacity>
@@ -55,18 +55,22 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 60,
     paddingHorizontal: 0,
+    position: "relative"
   },
   item: {
     padding: 15,
     borderRadius: 15,
     width: '115%',
-    overflow: "hidden"
+    overflow: "hidden",
+    position: "relative"
   },
   description: {
     color: appcolors.d_primarytext,
     fontWeight: '800',
-    bottom: '0%',
-
+    bottom: 0,
+    position: "absolute",
+    width: '100%',
+    textAlign: "center"
   },
   itemHeader: {
     flexDirection: 'row',
@@ -74,12 +78,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15
   },
-  itemFooter: { // TODO: Work on getting this to show properly or just forget it cuz im spending too much time on a footer of an image instead of actually moving on and this should really just be a stretch goal.. im sleepy.
+  itemFooter: {
     backgroundColor: appcolors.d_topgradient,
-    // position: "relative",
+    position: "absolute",
     height: '15%',
-    // bottom: 0,
-    flex: 1,
+    width: '100%',
+    bottom: 0,
+    // flex: 1,
     opacity: 0.75,
   },
   headerText: {
