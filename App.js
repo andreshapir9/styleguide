@@ -6,8 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 import CameraView from './components/cameraView'
 import RecommendationView from './components/recommendationView'
 import MainView from './components/mainView'
-import TouchSelect from './components/SelectionView';
 import ColorPickerView from './components/ColorPickerView';
+import appcolors from './config/appcolors';
+import PopularPaletteView from './components/PopularPaletteView';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,12 +36,12 @@ const App = () => {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#69D2E7',
+          tabBarActiveTintColor: appcolors.primary,
           tabBarInactiveTintColor: 'gray',
         })}
       >
         <Tab.Screen name="Home" component={MainView} />
-        <Tab.Screen name="Popular" component={ColorPickerView} />
+        <Tab.Screen name="Popular" component={PopularPaletteView} />
         <Tab.Screen name="Camera" component={CameraView} />
         <Tab.Screen name="ColorPick" component={ColorPickerView} />
         <Tab.Screen name="Recommendations" component={RecommendationView} />
