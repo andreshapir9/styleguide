@@ -9,20 +9,26 @@ import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity }
 import { Appearance } from 'react-native';
 
 
-// Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors. 
+//Well for the Triad for example you could convert your color to HSV, then just +/-120 degrees on the hue to get the other two colors. 
 //For your other scheme you could do the same but just +/- something small like 15 degrees. 
 //The conversion to/from HSV you can perform pretty easily.
 
+//helper function to instantiate color class with given rgb values
 export function SGCFromRGB(r, g, b) {
   return new SG_Color(r, g, b)
 }
+
+//helper function to instantiate color class with given hsv values
+//gets given hsv and passes it to converting function
 export function SGCFromHSV(h, s, v) {
-  rgb = HSVTORGB(h, s, v)
-  r = rgb[0]
-  g = rgb[1]
-  b = rgb[2]
-  return new SG_Color(r, g, b)
+  rgb = HSVTORGB(h, s, v);
+  r = rgb[0];
+  g = rgb[1];
+  b = rgb[2];
+  return new SG_Color(r, g, b) //returns by instantiating values into class
 }
+
+//function used to mathematically convert hsv values to rgb then returned back
 export function HSVTORGB(h, s, v) {
   // v /= 100;
   // s /= 100;
@@ -52,59 +58,68 @@ export function HSVTORGB(h, s, v) {
   return [r, g, b]
 }
 
+//root color class that makes member variables for RGB and HSV
 class SG_Color {
   constructor(red, green, blue) {
     this.r = red;
     this.g = green;
     this.b = blue;
     this.rgbTohsv(this.r, this.g, this.b);
-
   }
+
+  //used to update RGB values after HSV values are altered
   UpdateRGB() {
     this.hsvTorgb(this.h, this.s, this.v);
   }
+
+  //used to update HSV values after RGB values are altered
   UpdateHSV() {
    this.rgbTohsv(this.r, this.g, this.b); 
   }
-  RGB() {
+
+  //returns RGB values of object
+  RGB() { 
     return `rgb(${this.r}, ${this.g}, ${this.b})`
   }
-  HSV() {
+
+  //returns HSV values of object
+  HSV() { 
     return `hsv(${this.h}, ${this.s}, ${this.v})`
   }
+
+  //returns the blue value of the object
   blue() {
     return "blue"
   }
-  ComplementaryColor() {
+
+  //color function that returns the complementary color of object 
+  ComplementaryColor() {  
     return `rgb(${255 - this.r}, ${255 - this.g}, ${255 - this.b})`
   }
-  TriadColors() { //done
+
+  //color function that instantiates two more objects and alters its hue value by 120 degrees in order to return proper colors
+  TriadColors() {
     var c1 = SGCFromRGB(this.r, this.g, this.b);
     var c2 = SGCFromRGB(this.r, this.g, this.b);
     c1.h += 120;
     c1.h = c1.h % 360;
-    c1.UpdateRGB();
+    c1.UpdateRGB(); //since hue values are altered, RGB values have to be updated
     c2.h -= 120;
     c2.h = c2.h % 360;
     c2.UpdateRGB();
+
     return [c1, c2];
-    //call function to convert
-    //get each value returned for r, g, b
-    //subtract 120, add 120 depending?
-    //return the values
-    //do similar thing to other color class
-    
   }
   
-  SquareColors(r, g, b){
-    rgbTohsv(r, g, b);
-    var c1 = SG_Color(r, g, b);
-    var c2 = SG_Color(r, g, b);
-    var c3 = SG_Color(r, g, b);
+    //color function that instantiates three more objects and alters its hue value by 90 degrees in order to return proper colors
+  SquareColors(){
+    var c1 = SGCFromRGB(this.r, this.g, this.b);
+    var c2 = SGCFromRGB(this.r, this.g, this.b);
+    var c3 = SGCFromRGB(this.r, this.g, this.b);
 
     c1.h += 90;
     c1.h = c1.h % 360;
-    c1.UpdateRGB();
+    c1.UpdateRGB(); //since hue values are altered, RGB values have to be updated
     c2.h += 180;
     c2.h = c2.h % 360;
     c2.UpdateRGB();
@@ -115,11 +130,21 @@ class SG_Color {
     return[c1, c2, c3];
   }
 
-  MonoColors(r, g, b) {
+  MonoColors() { //color function that instantiates two more objects and alters its saturation value by 60 degrees in order to return proper colors
+    var c1 = SGCFromRGB(this.r, this.g, this.b);
+    var c2 = SGCFromRGB(this.r, this.g, this.b);
 
+    c1.s -= 60;
+    c1.s = c1.s % 360;
+    c1.UpdateRGB(); //since hue values are altered, RGB values have to be updated
+    c2.s -= 60;
+    c2.s = c1.s % 360;
+    c2.UpdateRGB();
+
+    return[c1, c2];
   }
 
-  
+  //function that mathematically converts RGB values to HSV and instantiated to object
   rgbTohsv(r, g, b) {
   var r_p = r/255;
   var g_p = g/255;
@@ -153,6 +178,7 @@ class SG_Color {
   //return[h, s, v];
   }
 
+  //function that mathematically converts HSV values to RGB and instantiated to object
   hsvTorgb(h, s, v) { 
   v /= 100;
   s /= 100;
@@ -181,9 +207,9 @@ class SG_Color {
   //return [r, g, b]
 
   }
-
 }
 
+//example RGB values and name given to test code and color functions
 export const DATA = [
    {
      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -200,6 +226,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </>
 );
 
+//chunk of code to start program and values to test color functions
 const App = () => {
   const [selectedId, setSelectedId] = useState(null);
   const renderItem = ({ item }) => {
@@ -212,6 +239,7 @@ const App = () => {
     const bgColor = sg1.RGB()
     const color = "black"
     const compColor = sg1.ComplementaryColor()
+
     return (
       <>
         <Item
