@@ -89,7 +89,7 @@ export function HSVTORGB(h, s, v) {
 }
 
 //root color class that makes member variables for RGB and HSV
-class SG_Color {
+export class SG_Color {
   constructor(red, green, blue) {
     this.r = red;
     this.g = green;
