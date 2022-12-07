@@ -8,7 +8,7 @@
  */
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Image, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
-//import { Camera } from 'expo-camera';
+import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 //import PixelColor from 'react-native-pixel-color';
 import { GetColorName } from 'hex-color-to-color-name';
@@ -19,18 +19,18 @@ export default function CameraView({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
   const [galleryPermission, setGalleryPermission] = useState(null);
 
-//  const [camera, setCamera] = useState(null);
+  const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
   const [imageUriHeight, setImageUriHeight] = useState(null);
   const [imageUriWidth, setImageUriWidth] = useState(null);
-  //const [type, setType] = useState(Camera.Constants.Type.back);
+  const [type, setType] = useState(Camera.Constants.Type.back);
   const [selected_pixel, setSelectedPixel] = useState(null);
 
   const permissionFunc = async () => {
     // here is how you can get the camera permission
-   // const cameraPermission = await Camera.requestCameraPermissionsAsync();
+    const cameraPermission = await Camera.requestCameraPermissionsAsync();
 
-  //  setCameraPermission(cameraPermission.status === 'granted');
+    setCameraPermission(cameraPermission.status === 'granted');
 
     const imagePermission = await ImagePicker.getMediaLibraryPermissionsAsync();
     console.log(imagePermission.status);
@@ -38,7 +38,8 @@ export default function CameraView({ navigation }) {
     setGalleryPermission(imagePermission.status === 'granted');
 
     if (
-      imagePermission.status !== 'granted' 
+      imagePermission.status !== 'granted' &&
+      cameraPermission.status !== 'granted'
     ) {
       alert('Permission for media access needed.');
     }
@@ -48,15 +49,15 @@ export default function CameraView({ navigation }) {
     permissionFunc();
   }, []);
 
-  // const takePicture = async () => {
-  //   if (camera) {
-  //     const data = await camera.takePictureAsync(null);
-  //     console.log(data.uri);
-  //     setImageUri(data.uri);
-  //     setImageUriHeight(data.height);
-  //     setImageUriWidth(data.width);
-  //   }
-  // };
+  const takePicture = async () => {
+    if (camera) {
+      const data = await camera.takePictureAsync(null);
+      console.log(data.uri);
+      setImageUri(data.uri);
+      setImageUriHeight(data.height);
+      setImageUriWidth(data.width);
+    }
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -152,15 +153,15 @@ export default function CameraView({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.cameraContainer}>
-        {/* <Camera
+        <Camera
           ref={(ref) => setCamera(ref)}
           style={styles.fixedRatio}
           type={type}
           ratio={'1:1'}
-        /> */}
+        />
       </View>
 
-      {/* <Button title={'Take Picture'} onPress={takePicture} /> */}
+      <Button title={'Take Picture'} onPress={takePicture} />
       <Button title={'Gallery'} onPress={pickImage} />
 
       {imageUri &&
@@ -171,6 +172,7 @@ export default function CameraView({ navigation }) {
       <SafeAreaView style={styles.colorRecognition} backgroundColor={getBackgroundColor()}>
         <TouchableWithoutFeedback onPress={ () => navigation.navigate('Recommendations', {
           SelectedColor: toHsv(getBackgroundColor()) })}>
+
           <Text style={styles.colorText}>{GetColorName(getBackgroundColor())}</Text>
         </TouchableWithoutFeedback>
       </SafeAreaView>
