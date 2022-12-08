@@ -275,7 +275,8 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
 //chunk of code to start program and values to test color functions
 const App = () => {
-  const [selectedId, setSelectedId] = useState(null);
+  let selectedId = null;
+  function setSelectedId(id) { selectedId = id; }
   const renderItem = ({ item }) => {
     let sg1 = new SG_Color(item.color[0], item.color[1], item.color[2])
     const bgColor = sg1.RGB()
