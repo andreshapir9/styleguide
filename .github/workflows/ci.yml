@@ -20,5 +20,7 @@ jobs:
       run: npm install @testing-library/react-native
     - name: Install Jest
       run: npm install -g jest
+    - name: Install test renderer
+      run: npm install react-test-renderer
     - name: Run tests
       run: jest
