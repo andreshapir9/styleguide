@@ -5,5 +5,6 @@
 2. expo run:ios
 
 
-Testing
-  npm run test
+run all Unit tests and code coverage: 
+
+1. npm run test
