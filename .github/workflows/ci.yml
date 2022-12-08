@@ -16,6 +16,8 @@ jobs:
       run: npm install
     - name: Install Expo
       run: npm install -g expo-cli
+    - name: Install react testing\
+      run: npm install @testing-library/react-native
     - name: Install Jest
       run: npm install -g jest
     - name: Run tests
