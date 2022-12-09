@@ -23,6 +23,6 @@ jobs:
       - name: expo install
         run: |
           npm install -g expo-cli
-      - name: expo build:ios
+      - name: expo run:ios
         run: |
-          expo build:ios
+          expo run:ios
