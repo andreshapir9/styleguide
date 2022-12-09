@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import RecommendationView from './components/recommendationView'
 import MainView from './components/mainView'
 import ColorPickerView from './components/ColorPickerView';
 import * as ColorHelpers from './utils/colorHelpers';
