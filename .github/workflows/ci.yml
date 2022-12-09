@@ -26,7 +26,9 @@ jobs:
       - name: Install Packages
         run: npm install
       # Peform a type check if you are using typescript
-      - name: Check Lint
-        run: npm run lint
+      # - name: Typecheck
+      #   run: npx --no-install tsc --noEmit
+      # - name: Check Lint
+      #   run: npm run lint
       - name: Test
         run: npm run test -- --coverage
